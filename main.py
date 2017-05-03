@@ -22,28 +22,22 @@ def solve(dataId, usingExist = True):
     if not os.path.exists(binPath) or not usingExist:
         word2vec.word2vec(dataPath, binPath, size=100, verbose=True)
 
-
+    # 使用word2vec载入binPath
     model = word2vec.load(binPath)
+
+    # 打开输出文件
     output = codecs.open(outputPath, "w", "utf-8")
-
-    data5_list = []
-    for wordVec in model.vectors:
-        wordVecList = []
-        for x in wordVec:
-            wordVecList.append(x)
-        data5_list.append(wordVecList)
-
 
 
     ClustersNumber = 10
-    WordNumber = len(data5_list)
+    WordNumber = len(model.vectors)
 
     allCluster = []
     for i in xrange(ClustersNumber):
         allCluster.append([])
 
 
-    kmeans = KMeans(n_clusters=ClustersNumber, random_state=0).fit(data5_list)
+    kmeans = KMeans(n_clusters=ClustersNumber, random_state=0).fit(model.vectors)
 
 
     # print model.vocab[0]
