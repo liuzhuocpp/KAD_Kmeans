@@ -2,17 +2,11 @@
 import word2vec
 
 
-# word2vec.word2vec('./data/5.txt', './out/5.bin', size=100, verbose=True)
-# word2vec.word2vec('text8/text8', 'text8/text8.bin', size=100, verbose=True)
 
-
-# word2vec.word2clusters('text8/text8.bin', 'text8/text8-clusters.txt', 100, verbose=True)
-
-
-# word2vec.word2vec("data/5.txt", "out/5.bin")
 
 # word2vec.word2clusters('data/5.txt', 'out/5-clusters.txt', 100, verbose=True)
 
+# word2vec.word2vec('./data/5.txt', './out/5.bin', size=100, verbose=True)
 model = word2vec.load('out/5.bin')
 
 print model.vocab
@@ -95,8 +89,6 @@ for clusterId in xrange(len(allCluster)):
         print x, model.vocab[x], scores[x]
 
     allCluster[clusterId].sort(cmp = comparator, reverse = True)
-    # print '-'*100
-    # print allCluster[clusterId][:30]
 
 
     cot = 30
