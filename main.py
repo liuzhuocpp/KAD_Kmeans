@@ -4,11 +4,23 @@ import numpy
 import codecs
 from sklearn.cluster import KMeans
 
+import os
 
 
-def solve(dataId):
-    model = word2vec.load('out/'+str(dataId)+'.bin')
-    output = codecs.open("out/ans"+str(dataId)+".txt", "w", "utf-8")
+
+def solve(dataId, usingExist = True):
+
+    dataId = str(dataId)
+    dataPath = './data/'+ dataId +'.txt'
+    binPath = './out/' + dataId + '.bin'
+    outputPath = "out/ans"+ dataId +".txt"
+    
+    if not os.path.exists(binPath):
+        word2vec.word2vec(dataPath, binPath, size=100, verbose=True)
+
+    
+    model = word2vec.load(binPath)
+    output = codecs.open(outputPath, "w", "utf-8")
 
     data5_list = []
     for wordVec in model.vectors:
@@ -30,8 +42,8 @@ def solve(dataId):
     kmeans = KMeans(n_clusters=ClustersNumber, random_state=0).fit(data5_list)
 
 
-    print model.vocab[0]
-    print model.vocab[1]
+    # print model.vocab[0]
+    # print model.vocab[1]
     label = kmeans.labels_
     scores = []
     for i in xrange(WordNumber):
@@ -70,6 +82,8 @@ def solve(dataId):
 
 
 solve(5)
+solve(7)
+solve(9)
 
 
 
