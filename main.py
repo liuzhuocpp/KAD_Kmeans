@@ -6,7 +6,11 @@ from sklearn.cluster import KMeans
 
 import os
 
+'''
+ dataId: dataset index, current 5, 7, 9
+ usingExist: whether use exist  bin file, default True
 
+'''
 
 def solve(dataId, usingExist = True):
 
@@ -15,10 +19,10 @@ def solve(dataId, usingExist = True):
     binPath = './out/' + dataId + '.bin'
     outputPath = "out/ans"+ dataId +".txt"
     
-    if not os.path.exists(binPath):
+    if not os.path.exists(binPath) or not usingExist:
         word2vec.word2vec(dataPath, binPath, size=100, verbose=True)
 
-    
+
     model = word2vec.load(binPath)
     output = codecs.open(outputPath, "w", "utf-8")
 
@@ -79,11 +83,12 @@ def solve(dataId, usingExist = True):
         
         for x in allCluster[clusterId][:30]:
             output.write(model.vocab[x] + "  " + str(scores[x])  + "\n")
+    print '\n'
 
 
-solve(5)
-solve(7)
-solve(9)
+solve(5, False)
+solve(7, False)
+solve(9, False)
 
 
 
