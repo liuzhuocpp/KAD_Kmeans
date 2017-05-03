@@ -46,6 +46,7 @@ for wordVec in model.vectors:
 
 
 ClustersNumber = 10
+WordNumber = len(data5_list)
 
 allCluster = []
 for i in xrange(ClustersNumber):
@@ -58,6 +59,12 @@ kmeans = KMeans(n_clusters=ClustersNumber, random_state=0).fit(data5_list)
 print model.vocab[0]
 print model.vocab[1]
 label = kmeans.labels_
+scores = []
+for i in xrange(WordNumber):
+    scores.append(kmeans.score([model.vectors[i]]) )
+
+
+
 print label
 
 for i in xrange(len(label)):
@@ -69,8 +76,10 @@ output = codecs.open("out/ans5.txt", "w", "utf-8")
 
 
 def comparator(a, b):
-    vala = kmeans.score([model.vectors[a]]) 
-    valb = kmeans.score([model.vectors[a]])
+
+    vala = scores[a]
+    valb = scores[b]
+
     if vala > valb: return 1
     elif vala == valb : return 0
     else : return -1
@@ -79,15 +88,22 @@ for clusterId in xrange(len(allCluster)):
     output.write("-----------------------------------cluster " + str(clusterId) + ":\n")
     # print "cluster ", clusterId, ":"
 
+
     print allCluster[clusterId][:30]
 
-    sorted(allCluster[clusterId], cmp = comparator)
+    for x in allCluster[clusterId][:30]:
+        print x, model.vocab[x], scores[x]
+
+    allCluster[clusterId].sort(cmp = comparator, reverse = True)
+    # print '-'*100
+    # print allCluster[clusterId][:30]
+
 
     cot = 30
     for x in allCluster[clusterId]:                
         cot -=1
         if cot == 0: break
-        output.write(model.vocab[x] + "\n")
+        output.write(model.vocab[x] + "  " + str(scores[x])  + "\n")
         
 
         
