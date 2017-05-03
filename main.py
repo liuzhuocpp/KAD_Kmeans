@@ -11,23 +11,23 @@ import codecs
 # word2vec.word2vec('./data/5.txt', './out/5.bin', size=100, verbose=True)
 model = word2vec.load('out/5.bin')
 
-print model.vocab
-print model.vectors.shape
+# print model.vocab
+# print model.vectors.shape
 
-indexes, metrics = model.cosine(u'服务')
-print indexes
-print metrics
-
-
-for x in model.generate_response(indexes, metrics).tolist():
-    print x[0], x[1]
+# indexes, metrics = model.cosine(u'服务')
+# print indexes
+# print metrics
 
 
+# for x in model.generate_response(indexes, metrics).tolist():
+#     print x[0], x[1]
 
-def cosine_similarity(model, a, b):
-    return numpy.dot(model[a], model[b])/(numpy.linalg.norm(model[a])* numpy.linalg.norm(model[b]))
 
-print cosine_similarity(model, u'服务', u"增值")
+
+# def cosine_similarity(model, a, b):
+#     return numpy.dot(model[a], model[b])/(numpy.linalg.norm(model[a])* numpy.linalg.norm(model[b]))
+
+# print cosine_similarity(model, u'服务', u"增值")
 
 from sklearn.cluster import KMeans
 
