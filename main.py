@@ -28,36 +28,32 @@ def solve(dataId, usingExist = True):
     # 打开输出文件
     output = codecs.open(outputPath, "w", "utf-8")
 
-
     ClustersNumber = 10
     WordNumber = len(model.vectors)
 
-    allCluster = []
-    for i in xrange(ClustersNumber):
-        allCluster.append([])
 
-
+    # 使用Kmeans算法
     kmeans = KMeans(n_clusters=ClustersNumber, random_state=0).fit(model.vectors)
 
-
-    # print model.vocab[0]
-    # print model.vocab[1]
+    # 得到每个word ID 所属于的cluster 编号，编号范围[0, WordNumber)
     label = kmeans.labels_
+    # 获取每个word 的得分，即是每个word和cluster中心的距离的相反数
     scores = []
     for i in xrange(WordNumber):
         scores.append(kmeans.score([model.vectors[i]]) )
 
 
-
-    # print label
-
+    # 把处于相同cluster的word ID 放入相同的list
+    allCluster = []
+    for i in xrange(ClustersNumber):
+        allCluster.append([])
     for i in xrange(len(label)):
         allCluster[label[i]].append(i)
 
 
     
 
-
+    # 定义两个word ID的大小关系，使用scores数组比较其大小关系
     def comparator(a, b):
 
         vala = scores[a]
@@ -67,15 +63,16 @@ def solve(dataId, usingExist = True):
         elif vala == valb : return 0
         else : return -1
 
+    #对于每个cluster分别处理
     for clusterId in xrange(len(allCluster)):
-        output.write("-----------------------------------cluster " + str(clusterId) + ":\n")
+        output.write("-----------------------------------cluster " + str(clusterId) + ":\n")        
         
-        
+        #排序，按照score从高到低排序
         allCluster[clusterId].sort(cmp = comparator, reverse = True)
 
-
-        
+        #获取前30个
         for x in allCluster[clusterId][:30]:
+            #输出score的相反数，即输出距离
             output.write(model.vocab[x] + "  " + str(-scores[x])  + "\n")
     print '\n'
 
