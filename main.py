@@ -6,32 +6,9 @@ from sklearn.cluster import KMeans
 
 
 
-
-# word2vec.word2clusters('data/5.txt', 'out/5-clusters.txt', 100, verbose=True)
-
-# word2vec.word2vec('./data/5.txt', './out/5.bin', size=100, verbose=True)
-
-# print model.vocab
-# print model.vectors.shape
-
-# indexes, metrics = model.cosine(u'服务')
-# print indexes
-# print metrics
-
-
-# for x in model.generate_response(indexes, metrics).tolist():
-#     print x[0], x[1]
-
-
-
-# def cosine_similarity(model, a, b):
-#     return numpy.dot(model[a], model[b])/(numpy.linalg.norm(model[a])* numpy.linalg.norm(model[b]))
-
-# print cosine_similarity(model, u'服务', u"增值")
-
-
 def solve(dataId):
-    model = word2vec.load('out/5.bin')
+    model = word2vec.load('out/'+str(dataId)+'.bin')
+    output = codecs.open("out/ans"+str(dataId)+".txt", "w", "utf-8")
 
     data5_list = []
     for wordVec in model.vectors:
@@ -68,7 +45,7 @@ def solve(dataId):
         allCluster[label[i]].append(i)
 
 
-    output = codecs.open("out/ans5.txt", "w", "utf-8")
+    
 
 
     def comparator(a, b):
