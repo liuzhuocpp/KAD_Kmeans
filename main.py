@@ -82,7 +82,7 @@ def solve(dataId, usingExist = True):
 
         
         for x in allCluster[clusterId][:30]:
-            output.write(model.vocab[x] + "  " + str(scores[x])  + "\n")
+            output.write(model.vocab[x] + "  " + str(-scores[x])  + "\n")
     print '\n'
 
 
