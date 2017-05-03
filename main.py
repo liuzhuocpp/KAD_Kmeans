@@ -1,5 +1,7 @@
 #coding=utf-8
 import word2vec
+import numpy    
+import codecs
 
 
 
@@ -22,7 +24,6 @@ for x in model.generate_response(indexes, metrics).tolist():
 
 
 
-import numpy    
 def cosine_similarity(model, a, b):
     return numpy.dot(model[a], model[b])/(numpy.linalg.norm(model[a])* numpy.linalg.norm(model[b]))
 
@@ -65,7 +66,6 @@ for i in xrange(len(label)):
     allCluster[label[i]].append(i)
     # print "I: " , i, label[i]
 
-import codecs
 output = codecs.open("out/ans5.txt", "w", "utf-8")
 
 
@@ -83,18 +83,16 @@ for clusterId in xrange(len(allCluster)):
     # print "cluster ", clusterId, ":"
 
 
-    print allCluster[clusterId][:30]
+    # print allCluster[clusterId][:30]
 
-    for x in allCluster[clusterId][:30]:
-        print x, model.vocab[x], scores[x]
+    # for x in allCluster[clusterId][:30]:
+    #     print x, model.vocab[x], scores[x]
 
     allCluster[clusterId].sort(cmp = comparator, reverse = True)
 
 
-    cot = 30
-    for x in allCluster[clusterId]:                
-        cot -=1
-        if cot == 0: break
+    
+    for x in allCluster[clusterId][:30]:
         output.write(model.vocab[x] + "  " + str(scores[x])  + "\n")
         
 
