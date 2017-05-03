@@ -86,10 +86,13 @@ def solve(dataId, usingExist = True):
     print '\n'
 
 
-solve(5, False)
-solve(7, False)
-solve(9, False)
+# solve(5, False)
+# solve(7, False)
+# solve(9, False)
 
+solve(5)
+solve(7)
+solve(9)
 
 
 
